@@ -15,12 +15,17 @@ namespace sandbox
             //find a pair on integers that equal a sum
 
             int[] input = { 1, 2, 5, 10, 12, 21 };
-            int sum = 22;
+            int sum = 12;
 
             int[] pairs = findPair(input, sum);
 
             Console.WriteLine(pairs[0] + " " + pairs[1]);
+            
+            int[] pair = bitVectorSearch(input, sum);
+            Console.WriteLine(pair[0] + " " + pair[1]);
             Console.ReadLine();
+
+
 
         }
 
@@ -71,6 +76,32 @@ namespace sandbox
                 }
             }
             return pair;
+        }
+
+
+        static int[] bitVectorSearch(int[] input, int sum)
+        {
+            int[] pairs = { -9999, -9999 }; //default value if no pair found
+
+            Array.Sort(input); 
+            
+            int[] bitvector = new int[input[(input.Length - 1)] + 1]; //get largest element for bitvector length
+            
+            foreach (int i in input) //assign 1s to all values in input array to bitvector indexes
+                bitvector[i] = 1;
+            
+            for(int i = 1; i < bitvector.Length; i++)
+            {
+                if (bitvector[sum - i] == 1)
+                {
+                    pairs[0] = i;
+                    pairs[1] = sum - i;
+
+                    return pairs;
+                }
+            }
+
+            return pairs;
         }
     }
 }
